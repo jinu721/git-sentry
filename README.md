@@ -54,7 +54,7 @@ GitSentry is a lightweight, local-first Git assistant that helps developers main
 
 #### **Linux/macOS:**
 ```bash
-git clone https://github.com/yourusername/gitsentry.git
+git clone https://github.com/jinu721/git-sentry
 cd gitsentry
 chmod +x install.sh
 ./install.sh
@@ -62,7 +62,7 @@ chmod +x install.sh
 
 #### **Windows (PowerShell as Administrator):**
 ```powershell
-git clone https://github.com/yourusername/gitsentry.git
+git clone https://github.com/jinu721/git-sentry
 cd gitsentry
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\install.ps1
@@ -70,7 +70,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 #### **Using Go (All Platforms):**
 ```bash
-git clone https://github.com/yourusername/gitsentry.git
+git clone https://github.com/jinu721/git-sentry
 cd gitsentry
 go install ./cmd/gitsentry
 ```
@@ -79,7 +79,7 @@ go install ./cmd/gitsentry
 
 ```bash
 # Navigate to your project
-cd ~/my-awesome-project
+cd ~/logichub-project
 
 # Initialize GitSentry (creates .gitsentry/ folder)
 gitsentry init
@@ -165,18 +165,18 @@ gitsentry init && gitsentry start
 We welcome contributions! Here's how you can help:
 
 ### **🐛 Report Issues**
-- Found a bug? [Open an issue](https://github.com/yourusername/gitsentry/issues)
+- Found a bug? [Open an issue](https://github.com/jinu721/git-sentry/issues)
 - Include your OS, Go version, and steps to reproduce
 
 ### **💡 Suggest Features**
-- Have an idea? [Start a discussion](https://github.com/yourusername/gitsentry/discussions)
+- Have an idea? [Start a discussion](https://github.com/jinu721/git-sentry/discussions)
 - Explain the problem it solves and how it would work
 
 ### **🔧 Code Contributions**
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/yourusername/gitsentry.git
+   git clone https://github.com/jinu721/git-sentry
    cd gitsentry
    ```
 
@@ -224,7 +224,7 @@ We welcome contributions! Here's how you can help:
 ### **Build from Source**
 ```bash
 # Clone and build
-git clone https://github.com/yourusername/gitsentry.git
+git clone https://github.com/jinu721/git-sentry
 cd gitsentry
 make build
 
