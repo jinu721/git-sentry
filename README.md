@@ -55,7 +55,7 @@ GitSentry is a lightweight, local-first Git assistant that helps developers main
 #### **Linux/macOS:**
 ```bash
 git clone https://github.com/jinu721/git-sentry
-cd gitsentry
+cd git-sentry
 chmod +x install.sh
 ./install.sh
 ```
@@ -63,7 +63,7 @@ chmod +x install.sh
 #### **Windows (PowerShell as Administrator):**
 ```powershell
 git clone https://github.com/jinu721/git-sentry
-cd gitsentry
+cd git-sentry
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\install.ps1
 ```
@@ -71,7 +71,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 #### **Using Go (All Platforms):**
 ```bash
 git clone https://github.com/jinu721/git-sentry
-cd gitsentry
+cd git-sentry
 go install ./cmd/gitsentry
 ```
 
