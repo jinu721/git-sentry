@@ -7,7 +7,7 @@ Thank you for your interest in contributing to GitSentry! We welcome contributio
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/yourusername/gitsentry.git
+   git clone https://github.com/jinu721/git-sentry
    cd gitsentry
    ```
 3. **Set up development environment**:
@@ -19,7 +19,7 @@ Thank you for your interest in contributing to GitSentry! We welcome contributio
 ## 🐛 Reporting Issues
 
 ### Before Submitting an Issue
-- Check if the issue already exists in [GitHub Issues](https://github.com/yourusername/gitsentry/issues)
+- Check if the issue already exists in [GitHub Issues](https://github.com/jinu721/git-sentry/issues)
 - Try the latest version to see if the issue is already fixed
 
 ### When Submitting an Issue
@@ -35,7 +35,7 @@ Please include:
 
 We love new ideas! Before suggesting a feature:
 
-1. **Check existing discussions** in [GitHub Discussions](https://github.com/yourusername/gitsentry/discussions)
+1. **Check existing discussions** in [GitHub Discussions](https://github.com/jinu721/git-sentry/gitsentry/discussions)
 2. **Explain the problem** your feature would solve
 3. **Describe the solution** you have in mind
 4. **Consider alternatives** and why your approach is best
@@ -174,9 +174,9 @@ GitSentry Architecture:
 
 ## 🤔 Questions?
 
-- **General questions**: [GitHub Discussions](https://github.com/yourusername/gitsentry/discussions)
-- **Bug reports**: [GitHub Issues](https://github.com/yourusername/gitsentry/issues)
-- **Feature requests**: [GitHub Discussions](https://github.com/yourusername/gitsentry/discussions)
+- **General questions**: [GitHub Discussions](https://github.com/jinu721/git-sentry/discussions)
+- **Bug reports**: [GitHub Issues](https://github.com/jinu721/git-sentry/issues)
+- **Feature requests**: [GitHub Discussions](https://github.com/jinu721/git-sentry/discussions)
 
 ## 📜 Code of Conduct
 
