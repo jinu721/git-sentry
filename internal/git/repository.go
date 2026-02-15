@@ -28,12 +28,8 @@ func NewRepository(path string) (*Repository, error) {
 }
 
 func (r *Repository) GetUnpushedCommitsCount() (int, error) {
-	cmd := exec.Command("git", "rev-list", "--count", "@{u}..HEAD")
-	cmd.Dir = r.path
-	
-	output, err := cmd.Output()
+	output, err := r.execGitCommand("rev-list", "--count", "@{u}..HEAD")
 	if err != nil {
-		// If there's no upstream, return 0
 		return 0, nil
 	}
 	
@@ -47,10 +43,7 @@ func (r *Repository) GetUnpushedCommitsCount() (int, error) {
 }
 
 func (r *Repository) GetStatus() ([]string, error) {
-	cmd := exec.Command("git", "status", "--porcelain")
-	cmd.Dir = r.path
-	
-	output, err := cmd.Output()
+	output, err := r.execGitCommand("status", "--porcelain")
 	if err != nil {
 		return nil, err
 	}
@@ -89,10 +82,7 @@ func (r *Repository) IsClean() (bool, error) {
 }
 
 func (r *Repository) GetLastCommitTime() (string, error) {
-	cmd := exec.Command("git", "log", "-1", "--format=%ci")
-	cmd.Dir = r.path
-	
-	output, err := cmd.Output()
+	output, err := r.execGitCommand("log", "-1", "--format=%ci")
 	if err != nil {
 		return "", err
 	}
@@ -101,15 +91,21 @@ func (r *Repository) GetLastCommitTime() (string, error) {
 }
 
 func (r *Repository) HasRemote() (bool, error) {
-	cmd := exec.Command("git", "remote")
-	cmd.Dir = r.path
-	
-	output, err := cmd.Output()
+	output, err := r.execGitCommand("remote")
 	if err != nil {
 		return false, err
 	}
 	
 	return strings.TrimSpace(string(output)) != "", nil
+}
+
+func (r *Repository) GetBranch() (string, error) {
+	output, err := r.execGitCommand("branch", "--show-current")
+	if err != nil {
+		return "", err
+	}
+	
+	return strings.TrimSpace(string(output)), nil
 }
 
 func (r *Repository) execGitCommand(args ...string) ([]byte, error) {
