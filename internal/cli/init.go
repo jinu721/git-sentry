@@ -23,11 +23,11 @@ This will create the .gitsentry configuration folder and check if Git is properl
 			return fmt.Errorf("failed to initialize GitSentry: %w", err)
 		}
 		
-		fmt.Println("✅ GitSentry initialized successfully!")
+		PrintSuccess("GitSentry initialized successfully!")
 		if initTemplate != "" {
-			fmt.Printf("📋 Applied template: %s\n", initTemplate)
+			PrintInfo(fmt.Sprintf("Applied template: %s", initTemplate))
 		}
-		fmt.Println("Use 'gitsentry start' to begin monitoring")
+		PrintInfo("Use 'gitsentry start' to begin monitoring")
 		return nil
 	},
 }
