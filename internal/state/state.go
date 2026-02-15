@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 )
 
 type State struct {
+	mu           sync.RWMutex
 	FilesChanged   int       `json:"files_changed"`
 	LinesAdded     int       `json:"lines_added"`
 	LinesRemoved   int       `json:"lines_removed"`
@@ -54,6 +56,9 @@ func Load(gitsentryDir string) (*State, error) {
 }
 
 func (s *State) Save(gitsentryDir string) error {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	
 	statePath := filepath.Join(gitsentryDir, "state.json")
 	
 	data, err := json.MarshalIndent(s, "", "  ")
@@ -65,16 +70,42 @@ func (s *State) Save(gitsentryDir string) error {
 }
 
 func (s *State) Reset() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	
 	s.FilesChanged = 0
 	s.LinesAdded = 0
 	s.LinesRemoved = 0
 }
 
 func (s *State) RecordCommit() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	
 	s.LastCommit = time.Now()
-	s.Reset()
+	s.FilesChanged = 0
+	s.LinesAdded = 0
+	s.LinesRemoved = 0
 }
 
 func (s *State) RecordPush() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	
 	s.LastPush = time.Now()
+}
+
+func (s *State) IncrementFilesChanged() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	
+	s.FilesChanged++
+	s.LastActivity = time.Now()
+}
+
+func (s *State) GetStats() (int, int, int, time.Time, time.Time) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	
+	return s.FilesChanged, s.LinesAdded, s.LinesRemoved, s.LastCommit, s.LastPush
 }
