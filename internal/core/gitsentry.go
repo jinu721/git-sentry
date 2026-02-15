@@ -179,18 +179,19 @@ func (gs *GitSentry) GetStatus() (*Status, error) {
 	}
 	
 	if gs.state != nil {
-		status.FilesChanged = gs.state.FilesChanged
-		status.LinesAdded = gs.state.LinesAdded
-		status.LinesRemoved = gs.state.LinesRemoved
+		filesChanged, linesAdded, linesRemoved, lastCommit, lastPush := gs.state.GetStats()
+		status.FilesChanged = filesChanged
+		status.LinesAdded = linesAdded
+		status.LinesRemoved = linesRemoved
 		
-		if !gs.state.LastCommit.IsZero() {
-			status.LastCommit = gs.state.LastCommit.Format("2006-01-02 15:04:05")
+		if !lastCommit.IsZero() {
+			status.LastCommit = lastCommit.Format("2006-01-02 15:04:05")
 		} else {
 			status.LastCommit = "Never"
 		}
 		
-		if !gs.state.LastPush.IsZero() {
-			status.LastPush = gs.state.LastPush.Format("2006-01-02 15:04:05")
+		if !lastPush.IsZero() {
+			status.LastPush = lastPush.Format("2006-01-02 15:04:05")
 		} else {
 			status.LastPush = "Never"
 		}
@@ -236,10 +237,8 @@ func (gs *GitSentry) onFileChange(path string) {
 		return
 	}
 	
-	gs.state.FilesChanged++
-	gs.state.LastActivity = time.Now()
+	gs.state.IncrementFilesChanged()
 	
-	// Save state
 	gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
 	gs.state.Save(gitsentryDir)
 }
@@ -266,26 +265,27 @@ func (gs *GitSentry) checkCommitSuggestion() {
 		return
 	}
 	
-	// Check rules
+	filesChanged, linesAdded, linesRemoved, lastCommit, _ := gs.state.GetStats()
+	
 	shouldSuggest := false
 	
-	if gs.state.FilesChanged >= gs.config.Rules.MaxFilesChanged {
+	if filesChanged >= gs.config.Rules.MaxFilesChanged {
 		shouldSuggest = true
 	}
 	
-	if gs.state.LinesAdded+gs.state.LinesRemoved >= gs.config.Rules.MaxLinesChanged {
+	if linesAdded+linesRemoved >= gs.config.Rules.MaxLinesChanged {
 		shouldSuggest = true
 	}
 	
-	if time.Since(gs.state.LastCommit).Minutes() >= float64(gs.config.Rules.MaxMinutesSinceCommit) {
+	if time.Since(lastCommit).Minutes() >= float64(gs.config.Rules.MaxMinutesSinceCommit) {
 		shouldSuggest = true
 	}
 	
 	if shouldSuggest {
 		fmt.Println("\n💡 GitSentry suggests it's a good time to commit!")
-		fmt.Printf("   Files changed: %d\n", gs.state.FilesChanged)
-		fmt.Printf("   Lines changed: %d\n", gs.state.LinesAdded+gs.state.LinesRemoved)
-		fmt.Printf("   Time since last commit: %.0f minutes\n", time.Since(gs.state.LastCommit).Minutes())
+		fmt.Printf("   Files changed: %d\n", filesChanged)
+		fmt.Printf("   Lines changed: %d\n", linesAdded+linesRemoved)
+		fmt.Printf("   Time since last commit: %.0f minutes\n", time.Since(lastCommit).Minutes())
 		fmt.Println("   Run 'git add . && git commit' when ready")
 	}
 }
