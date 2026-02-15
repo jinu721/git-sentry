@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
+	"gitsentry/internal/security"
 )
 
 type FileMonitor struct {
@@ -45,12 +46,14 @@ func (fm *FileMonitor) watch() {
 				return
 			}
 			
-			// Filter out events we don't care about
 			if fm.shouldIgnore(event.Name) {
 				continue
 			}
 			
-			// Only care about write and create events
+			if err := security.ValidateFilePath(event.Name); err != nil {
+				continue
+			}
+			
 			if event.Op&fsnotify.Write == fsnotify.Write || 
 			   event.Op&fsnotify.Create == fsnotify.Create {
 				fm.callback(event.Name)
@@ -60,8 +63,6 @@ func (fm *FileMonitor) watch() {
 			if !ok {
 				return
 			}
-			// Log error but continue monitoring
-			_ = err
 			
 		case <-fm.done:
 			return
