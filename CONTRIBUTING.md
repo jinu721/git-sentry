@@ -1,14 +1,14 @@
-# Contributing to GitSentry 🤝
+# Contributing to GitSentry
 
 Thank you for your interest in contributing to GitSentry! We welcome contributions from developers of all skill levels.
 
-## 🚀 Quick Start for Contributors
+## Quick Start for Contributors
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/jinu721/git-sentry
-   cd gitsentry
+   git clone https://github.com/jinu721/git-sentry.git
+   cd git-sentry
    ```
 3. **Set up development environment**:
    ```bash
@@ -16,7 +16,7 @@ Thank you for your interest in contributing to GitSentry! We welcome contributio
    make build
    ```
 
-## 🐛 Reporting Issues
+## Reporting Issues
 
 ### Before Submitting an Issue
 - Check if the issue already exists in [GitHub Issues](https://github.com/jinu721/git-sentry/issues)
@@ -35,7 +35,7 @@ Please include:
 
 We love new ideas! Before suggesting a feature:
 
-1. **Check existing discussions** in [GitHub Discussions](https://github.com/jinu721/git-sentry/gitsentry/discussions)
+1. **Check existing discussions** in [GitHub Discussions](https://github.com/jinu721/git-sentry/discussions)
 2. **Explain the problem** your feature would solve
 3. **Describe the solution** you have in mind
 4. **Consider alternatives** and why your approach is best
