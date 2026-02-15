@@ -32,4 +32,5 @@ func init() {
 	rootCmd.AddCommand(configCmd)
 	rootCmd.AddCommand(rulesCmd)
 	rootCmd.AddCommand(statsCmd)
+	rootCmd.AddCommand(doctorCmd)
 }
