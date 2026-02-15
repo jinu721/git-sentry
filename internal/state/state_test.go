@@ -2,9 +2,7 @@ package state
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
-	"time"
 )
 
 func TestDefaultState(t *testing.T) {
