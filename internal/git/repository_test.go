@@ -2,7 +2,6 @@ package git
 
 import (
 	"os"
-	"os/exec"
 	"testing"
 )
 
