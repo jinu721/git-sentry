@@ -10,6 +10,10 @@ import (
 	"gitsentry/internal/core"
 )
 
+var (
+	daemonMode bool
+)
+
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start GitSentry monitoring",
@@ -17,6 +21,10 @@ var startCmd = &cobra.Command{
 GitSentry will watch for changes and suggest commits based on your configured rules.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		sentry := core.NewGitSentry(".")
+		
+		if daemonMode {
+			return sentry.StartDaemon()
+		}
 		
 		if err := sentry.Start(); err != nil {
 			return fmt.Errorf("failed to start GitSentry: %w", err)
@@ -35,4 +43,8 @@ GitSentry will watch for changes and suggest commits based on your configured ru
 		
 		return nil
 	},
+}
+
+func init() {
+	startCmd.Flags().BoolVar(&daemonMode, "daemon", false, "Run in background daemon mode")
 }
