@@ -206,7 +206,19 @@ func (gs *GitSentry) GetStatus() (*Status, error) {
 	return status, nil
 }
 
+func (gs *GitSentry) SaveConfig(config *config.Config) error {
+	gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
+	
+	if err := config.Save(gitsentryDir); err != nil {
+		return fmt.Errorf("failed to save config: %w", err)
+	}
+	
+	gs.config = config
+	return nil
+}
+
 func (gs *GitSentry) GetConfig() (*config.Config, error) {
+}
 	if gs.config == nil {
 		gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
 		cfg, err := config.Load(gitsentryDir)
