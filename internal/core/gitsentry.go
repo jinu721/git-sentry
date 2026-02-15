@@ -56,36 +56,31 @@ func (gs *GitSentry) InitializeWithTemplate(template string) error {
 		return fmt.Errorf("failed to create logs directory: %w", err)
 	}
 	
-	// Initialize configuration
 	cfg, err := config.LoadWithTemplate(gitsentryDir, template)
 	if err != nil {
 		return fmt.Errorf("failed to load config: %w", err)
 	}
 	gs.config = cfg
 	
-	// Initialize state
 	st, err := state.Load(gitsentryDir)
 	if err != nil {
 		return fmt.Errorf("failed to load state: %w", err)
 	}
 	gs.state = st
 	
-	// Check if Git repository exists
 	gitRepo, err := git.NewRepository(gs.repoPath)
 	if err != nil {
-		fmt.Println("⚠️  Git repository not found")
+		fmt.Println("Git repository not found")
 		fmt.Println("Would you like to:")
 		fmt.Println("1. Initialize git repository")
 		fmt.Println("2. Initialize git + add GitHub remote")
 		fmt.Println("3. Skip (GitSentry will work with limited functionality)")
 		
-		// For now, just warn - in a real implementation, we'd prompt for user input
 		fmt.Println("Continuing with limited functionality...")
 	} else {
 		gs.gitRepo = gitRepo
 	}
 	
-	// Add .gitsentry to .gitignore
 	if err := gs.addToGitignore(); err != nil {
 		return fmt.Errorf("failed to update .gitignore: %w", err)
 	}
@@ -105,8 +100,8 @@ func (gs *GitSentry) StartDaemon() error {
 		return fmt.Errorf("failed to start monitoring: %w", err)
 	}
 	
-	fmt.Println("🚀 GitSentry daemon started successfully")
-	fmt.Printf("📁 Monitoring: %s\n", gs.repoPath)
+	fmt.Println("GitSentry daemon started successfully")
+	fmt.Printf("Monitoring: %s\n", gs.repoPath)
 	
 	select {}
 }
@@ -116,7 +111,6 @@ func (gs *GitSentry) Start() error {
 		return fmt.Errorf("GitSentry is already running")
 	}
 	
-	// Load configuration and state if not already loaded
 	if gs.config == nil {
 		gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
 		cfg, err := config.Load(gitsentryDir)
@@ -135,7 +129,6 @@ func (gs *GitSentry) Start() error {
 		gs.state = st
 	}
 	
-	// Initialize Git repository if not already done
 	if gs.gitRepo == nil {
 		gitRepo, err := git.NewRepository(gs.repoPath)
 		if err == nil {
@@ -143,7 +136,6 @@ func (gs *GitSentry) Start() error {
 		}
 	}
 	
-	// Start file monitoring
 	monitor, err := monitor.NewFileMonitor(gs.repoPath, gs.onFileChange)
 	if err != nil {
 		return fmt.Errorf("failed to start file monitor: %w", err)
@@ -152,7 +144,6 @@ func (gs *GitSentry) Start() error {
 	
 	gs.isRunning = true
 	
-	// Start monitoring in background
 	go gs.monitorLoop()
 	
 	return nil
@@ -282,7 +273,7 @@ func (gs *GitSentry) checkCommitSuggestion() {
 	}
 	
 	if shouldSuggest {
-		fmt.Println("\n💡 GitSentry suggests it's a good time to commit!")
+		fmt.Println("\nGitSentry suggests it's a good time to commit!")
 		fmt.Printf("   Files changed: %d\n", filesChanged)
 		fmt.Printf("   Lines changed: %d\n", linesAdded+linesRemoved)
 		fmt.Printf("   Time since last commit: %.0f minutes\n", time.Since(lastCommit).Minutes())
@@ -305,7 +296,7 @@ func (gs *GitSentry) checkPushSuggestion() {
 	}
 	
 	if unpushed >= gs.config.Rules.MaxUnpushedCommits {
-		fmt.Println("\n📤 GitSentry suggests pushing your commits for backup!")
+		fmt.Println("\nGitSentry suggests pushing your commits for backup!")
 		fmt.Printf("   Unpushed commits: %d\n", unpushed)
 		fmt.Println("   Run 'git push' when ready")
 	}
@@ -314,16 +305,13 @@ func (gs *GitSentry) checkPushSuggestion() {
 func (gs *GitSentry) addToGitignore() error {
 	gitignorePath := filepath.Join(gs.repoPath, ".gitignore")
 	
-	// Check if .gitignore exists and if .gitsentry is already in it
 	if _, err := os.Stat(gitignorePath); err == nil {
 		content, err := os.ReadFile(gitignorePath)
 		if err != nil {
 			return err
 		}
 		
-		// Check if .gitsentry is already in .gitignore
 		if string(content) != "" && !contains(string(content), ".gitsentry/") {
-			// Append .gitsentry to .gitignore
 			f, err := os.OpenFile(gitignorePath, os.O_APPEND|os.O_WRONLY, 0644)
 			if err != nil {
 				return err
@@ -335,7 +323,6 @@ func (gs *GitSentry) addToGitignore() error {
 			}
 		}
 	} else {
-		// Create .gitignore with .gitsentry
 		content := "# GitSentry\n.gitsentry/\n"
 		if err := os.WriteFile(gitignorePath, []byte(content), 0644); err != nil {
 			return err

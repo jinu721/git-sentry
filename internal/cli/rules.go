@@ -31,8 +31,8 @@ var rulesCmd = &cobra.Command{
 			return fmt.Errorf("failed to get config: %w", err)
 		}
 		
-		fmt.Println("📋 Current GitSentry Rules")
-		fmt.Println("=========================")
+		fmt.Println("Current GitSentry Rules")
+		fmt.Println("======================")
 		fmt.Printf("Max files changed: %d\n", config.Rules.MaxFilesChanged)
 		fmt.Printf("Max lines changed: %d\n", config.Rules.MaxLinesChanged)
 		fmt.Printf("Max minutes since commit: %d\n", config.Rules.MaxMinutesSinceCommit)
@@ -53,8 +53,8 @@ func runInteractiveRules(sentry *core.GitSentry) error {
 	
 	reader := bufio.NewReader(os.Stdin)
 	
-	fmt.Println("🔧 Interactive Rules Configuration")
-	fmt.Println("==================================")
+	fmt.Println("Interactive Rules Configuration")
+	fmt.Println("==============================")
 	
 	if newValue, err := promptInt(reader, "Max files changed", config.Rules.MaxFilesChanged); err == nil {
 		config.Rules.MaxFilesChanged = newValue

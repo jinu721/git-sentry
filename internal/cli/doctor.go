@@ -23,28 +23,28 @@ var doctorCmd = &cobra.Command{
 	Short: "Run GitSentry diagnostics",
 	Long:  `Diagnose GitSentry installation and configuration issues.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println("🩺 GitSentry Health Check")
-		fmt.Println("=========================")
+		fmt.Println("GitSentry Health Check")
+		fmt.Println("=====================")
 		
 		results := runDiagnostics()
 		
 		allGood := true
 		for _, result := range results {
-			status := "❌"
+			status := "FAIL"
 			if result.Success {
-				status = "✅"
+				status = "PASS"
 			} else {
 				allGood = false
 			}
 			
-			fmt.Printf("%s %s: %s\n", status, result.Name, result.Message)
+			fmt.Printf("[%s] %s: %s\n", status, result.Name, result.Message)
 		}
 		
 		fmt.Println()
 		if allGood {
-			fmt.Println("🎉 All checks passed! GitSentry is ready to use.")
+			fmt.Println("All checks passed! GitSentry is ready to use.")
 		} else {
-			fmt.Println("⚠️  Some issues found. Please address them for optimal performance.")
+			fmt.Println("Some issues found. Please address them for optimal performance.")
 		}
 		
 		return nil

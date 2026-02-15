@@ -45,8 +45,8 @@ var statsCmd = &cobra.Command{
 			return exportStatsJSON(status)
 		}
 		
-		fmt.Println("📊 GitSentry Statistics")
-		fmt.Println("======================")
+		fmt.Println("GitSentry Statistics")
+		fmt.Println("===================")
 		fmt.Printf("Repository: %s\n", status.RepoPath)
 		fmt.Printf("Git initialized: %t\n", status.IsGitRepo)
 		fmt.Printf("Monitoring: %t\n", status.IsMonitoring)
@@ -86,7 +86,7 @@ func exportStatsJSON(status *core.Status) error {
 		}
 		
 		absPath, _ := filepath.Abs(outputFile)
-		fmt.Printf("📄 Statistics exported to: %s\n", absPath)
+		fmt.Printf("Statistics exported to: %s\n", absPath)
 	} else {
 		fmt.Println(string(data))
 	}

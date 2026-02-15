@@ -34,7 +34,6 @@ func DefaultState() *State {
 func Load(gitsentryDir string) (*State, error) {
 	statePath := filepath.Join(gitsentryDir, "state.json")
 	
-	// If state doesn't exist, create default
 	if _, err := os.Stat(statePath); os.IsNotExist(err) {
 		state := DefaultState()
 		if err := state.Save(gitsentryDir); err != nil {
@@ -43,7 +42,6 @@ func Load(gitsentryDir string) (*State, error) {
 		return state, nil
 	}
 	
-	// Load existing state
 	data, err := security.SecureReadFile(statePath)
 	if err != nil {
 		return nil, err

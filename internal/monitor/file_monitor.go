@@ -26,13 +26,11 @@ func NewFileMonitor(path string, callback func(string)) (*FileMonitor, error) {
 		done:     make(chan bool),
 	}
 	
-	// Add the root path
 	err = watcher.Add(path)
 	if err != nil {
 		return nil, err
 	}
 	
-	// Start monitoring
 	go monitor.watch()
 	
 	return monitor, nil
@@ -71,12 +69,10 @@ func (fm *FileMonitor) watch() {
 }
 
 func (fm *FileMonitor) shouldIgnore(path string) bool {
-	// Ignore hidden directories and files
 	if strings.Contains(path, "/.") {
 		return true
 	}
 	
-	// Ignore common build/cache directories
 	ignoreDirs := []string{
 		"node_modules",
 		".git",
@@ -96,7 +92,6 @@ func (fm *FileMonitor) shouldIgnore(path string) bool {
 		}
 	}
 	
-	// Ignore common temporary file extensions
 	ignoreExts := []string{
 		".tmp",
 		".temp",

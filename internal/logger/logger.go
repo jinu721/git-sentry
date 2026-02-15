@@ -14,13 +14,11 @@ type Logger struct {
 func NewLogger(gitsentryDir string) (*Logger, error) {
 	logPath := filepath.Join(gitsentryDir, "logs", "gitsentry.log")
 	
-	// Create logs directory if it doesn't exist
 	logsDir := filepath.Dir(logPath)
 	if err := os.MkdirAll(logsDir, 0755); err != nil {
 		return nil, err
 	}
 	
-	// Open log file in append mode
 	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		return nil, err

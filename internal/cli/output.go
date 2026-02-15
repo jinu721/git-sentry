@@ -6,29 +6,29 @@ import (
 )
 
 func PrintSuccess(message string) {
-	fmt.Printf("✅ %s\n", message)
+	fmt.Printf("SUCCESS: %s\n", message)
 }
 
 func PrintError(message string) {
-	fmt.Fprintf(os.Stderr, "❌ Error: %s\n", message)
+	fmt.Fprintf(os.Stderr, "ERROR: %s\n", message)
 }
 
 func PrintWarning(message string) {
-	fmt.Printf("⚠️  Warning: %s\n", message)
+	fmt.Printf("WARNING: %s\n", message)
 }
 
 func PrintInfo(message string) {
-	fmt.Printf("ℹ️  %s\n", message)
+	fmt.Printf("INFO: %s\n", message)
 }
 
 func PrintHeader(title string) {
-	fmt.Printf("\n🔧 %s\n", title)
-	fmt.Println(generateSeparator(len(title) + 3))
+	fmt.Printf("\n%s\n", title)
+	fmt.Println(generateSeparator(len(title)))
 }
 
 func PrintSubHeader(title string) {
-	fmt.Printf("\n📋 %s\n", title)
-	fmt.Println(generateSeparator(len(title) + 3))
+	fmt.Printf("\n%s\n", title)
+	fmt.Println(generateSeparator(len(title)))
 }
 
 func generateSeparator(length int) string {
@@ -45,14 +45,14 @@ func FormatKeyValue(key, value string) string {
 
 func FormatBool(value bool) string {
 	if value {
-		return "✅ Yes"
+		return "Yes"
 	}
-	return "❌ No"
+	return "No"
 }
 
 func FormatStatus(isActive bool, activeMsg, inactiveMsg string) string {
 	if isActive {
-		return fmt.Sprintf("🟢 %s", activeMsg)
+		return fmt.Sprintf("ACTIVE: %s", activeMsg)
 	}
-	return fmt.Sprintf("🔴 %s", inactiveMsg)
+	return fmt.Sprintf("INACTIVE: %s", inactiveMsg)
 }

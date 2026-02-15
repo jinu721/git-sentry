@@ -18,7 +18,6 @@ type Repository struct {
 }
 
 func NewRepository(path string) (*Repository, error) {
-	// Check if .git directory exists
 	gitDir := filepath.Join(path, ".git")
 	if _, err := os.Stat(gitDir); os.IsNotExist(err) {
 		return nil, fmt.Errorf("not a git repository")
