@@ -151,7 +151,14 @@ func structToMap(obj interface{}) map[string]interface{} {
 			tag = field.Name
 		}
 		
-		result[tag] = value.Interface()
+		if value.Kind() == reflect.Struct {
+			nestedMap := structToMap(value.Interface())
+			for k, v := range nestedMap {
+				result[k] = v
+			}
+		} else {
+			result[tag] = value.Interface()
+		}
 	}
 	
 	return result
