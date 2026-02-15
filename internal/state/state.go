@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"sync"
 	"time"
+	
+	"gitsentry/internal/security"
 )
 
 type State struct {
@@ -42,7 +44,7 @@ func Load(gitsentryDir string) (*State, error) {
 	}
 	
 	// Load existing state
-	data, err := os.ReadFile(statePath)
+	data, err := security.SecureReadFile(statePath)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +68,7 @@ func (s *State) Save(gitsentryDir string) error {
 		return err
 	}
 	
-	return os.WriteFile(statePath, data, 0644)
+	return security.SecureWriteFile(statePath, data)
 }
 
 func (s *State) Reset() {

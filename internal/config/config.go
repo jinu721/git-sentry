@@ -116,7 +116,7 @@ func Load(gitsentryDir string) (*Config, error) {
 		return config, nil
 	}
 	
-	data, err := os.ReadFile(configPath)
+	data, err := security.SecureReadFile(configPath)
 	if err != nil {
 		return nil, err
 	}
@@ -142,5 +142,5 @@ func (c *Config) Save(gitsentryDir string) error {
 		return err
 	}
 	
-	return os.WriteFile(configPath, data, 0644)
+	return security.SecureWriteFile(configPath, data)
 }
