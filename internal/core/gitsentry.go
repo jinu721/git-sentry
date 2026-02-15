@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"gitsentry/internal/config"
+	"gitsentry/internal/daemon"
 	"gitsentry/internal/git"
 	"gitsentry/internal/monitor"
 	"gitsentry/internal/state"
@@ -93,7 +94,23 @@ func (gs *GitSentry) InitializeWithTemplate(template string) error {
 	return nil
 }
 
+func (gs *GitSentry) StartDaemon() error {
+	d := daemon.NewDaemon(gs.repoPath)
+	
+	if err := d.Daemonize(); err != nil {
+		return fmt.Errorf("failed to start daemon: %w", err)
+	}
+	
+	if err := gs.Start(); err != nil {
+		d.RemovePID()
+		return fmt.Errorf("failed to start monitoring: %w", err)
+	}
+	
+	fmt.Println("🚀 GitSentry daemon started successfully")
+	fmt.Printf("📁 Monitoring: %s\n", gs.repoPath)
+	
 func (gs *GitSentry) Start() error {
+}
 	if gs.isRunning {
 		return fmt.Errorf("GitSentry is already running")
 	}
