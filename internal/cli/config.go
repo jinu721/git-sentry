@@ -19,14 +19,14 @@ var configCmd = &cobra.Command{
 			return fmt.Errorf("failed to get config: %w", err)
 		}
 		
-		fmt.Println("⚙️  GitSentry Configuration")
-		fmt.Println("==========================")
-		fmt.Printf("Max files changed: %d\n", config.Rules.MaxFilesChanged)
-		fmt.Printf("Max lines changed: %d\n", config.Rules.MaxLinesChanged)
-		fmt.Printf("Max minutes since commit: %d\n", config.Rules.MaxMinutesSinceCommit)
-		fmt.Printf("Max unpushed commits: %d\n", config.Rules.MaxUnpushedCommits)
-		fmt.Printf("Auto-suggest commits: %t\n", config.AutoSuggestCommits)
-		fmt.Printf("Auto-suggest pushes: %t\n", config.AutoSuggestPushes)
+		PrintHeader("GitSentry Configuration")
+		
+		fmt.Println(FormatKeyValue("Max files changed", fmt.Sprintf("%d", config.Rules.MaxFilesChanged)))
+		fmt.Println(FormatKeyValue("Max lines changed", fmt.Sprintf("%d", config.Rules.MaxLinesChanged)))
+		fmt.Println(FormatKeyValue("Max minutes since commit", fmt.Sprintf("%d", config.Rules.MaxMinutesSinceCommit)))
+		fmt.Println(FormatKeyValue("Max unpushed commits", fmt.Sprintf("%d", config.Rules.MaxUnpushedCommits)))
+		fmt.Println(FormatKeyValue("Auto-suggest commits", FormatBool(config.AutoSuggestCommits)))
+		fmt.Println(FormatKeyValue("Auto-suggest pushes", FormatBool(config.AutoSuggestPushes)))
 		
 		return nil
 	},

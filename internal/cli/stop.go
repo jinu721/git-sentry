@@ -18,7 +18,7 @@ var stopCmd = &cobra.Command{
 			return fmt.Errorf("failed to stop GitSentry: %w", err)
 		}
 		
-		fmt.Println("🛑 GitSentry stopped")
+		PrintSuccess("GitSentry stopped")
 		return nil
 	},
 }

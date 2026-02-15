@@ -19,17 +19,17 @@ var statusCmd = &cobra.Command{
 			return fmt.Errorf("failed to get status: %w", err)
 		}
 		
-		fmt.Println("📊 GitSentry Status")
-		fmt.Println("==================")
-		fmt.Printf("Repository: %s\n", status.RepoPath)
-		fmt.Printf("Git initialized: %t\n", status.IsGitRepo)
-		fmt.Printf("Monitoring: %t\n", status.IsMonitoring)
-		fmt.Printf("Files changed: %d\n", status.FilesChanged)
-		fmt.Printf("Lines added: %d\n", status.LinesAdded)
-		fmt.Printf("Lines removed: %d\n", status.LinesRemoved)
-		fmt.Printf("Last commit: %s\n", status.LastCommit)
-		fmt.Printf("Last push: %s\n", status.LastPush)
-		fmt.Printf("Unpushed commits: %d\n", status.UnpushedCommits)
+		PrintHeader("GitSentry Status")
+		
+		fmt.Println(FormatKeyValue("Repository", status.RepoPath))
+		fmt.Println(FormatKeyValue("Git initialized", FormatBool(status.IsGitRepo)))
+		fmt.Println(FormatKeyValue("Monitoring", FormatStatus(status.IsMonitoring, "Active", "Inactive")))
+		fmt.Println(FormatKeyValue("Files changed", fmt.Sprintf("%d", status.FilesChanged)))
+		fmt.Println(FormatKeyValue("Lines added", fmt.Sprintf("%d", status.LinesAdded)))
+		fmt.Println(FormatKeyValue("Lines removed", fmt.Sprintf("%d", status.LinesRemoved)))
+		fmt.Println(FormatKeyValue("Last commit", status.LastCommit))
+		fmt.Println(FormatKeyValue("Last push", status.LastPush))
+		fmt.Println(FormatKeyValue("Unpushed commits", fmt.Sprintf("%d", status.UnpushedCommits)))
 		
 		return nil
 	},
