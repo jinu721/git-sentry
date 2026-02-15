@@ -32,7 +32,62 @@ func DefaultConfig() *Config {
 		},
 		AutoSuggestCommits:  true,
 		AutoSuggestPushes:   true,
-		CommitMessageFormat: "conventional", // conventional, simple
+		CommitMessageFormat: "conventional",
+	}
+}
+
+func TeamConfig() *Config {
+	return &Config{
+		Rules: Rules{
+			MaxFilesChanged:       3,
+			MaxLinesChanged:       75,
+			MaxMinutesSinceCommit: 20,
+			MaxUnpushedCommits:    2,
+		},
+		AutoSuggestCommits:  true,
+		AutoSuggestPushes:   true,
+		CommitMessageFormat: "conventional",
+	}
+}
+
+func StrictConfig() *Config {
+	return &Config{
+		Rules: Rules{
+			MaxFilesChanged:       2,
+			MaxLinesChanged:       50,
+			MaxMinutesSinceCommit: 15,
+			MaxUnpushedCommits:    1,
+		},
+		AutoSuggestCommits:  true,
+		AutoSuggestPushes:   true,
+		CommitMessageFormat: "conventional",
+	}
+}
+
+func RelaxedConfig() *Config {
+	return &Config{
+		Rules: Rules{
+			MaxFilesChanged:       10,
+			MaxLinesChanged:       200,
+			MaxMinutesSinceCommit: 60,
+			MaxUnpushedCommits:    5,
+		},
+		AutoSuggestCommits:  true,
+		AutoSuggestPushes:   false,
+		CommitMessageFormat: "simple",
+	}
+}
+
+func GetConfigByTemplate(template string) *Config {
+	switch template {
+	case "team":
+		return TeamConfig()
+	case "strict":
+		return StrictConfig()
+	case "relaxed":
+		return RelaxedConfig()
+	default:
+		return DefaultConfig()
 	}
 }
 
