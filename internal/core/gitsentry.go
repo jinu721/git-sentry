@@ -40,6 +40,10 @@ func NewGitSentry(repoPath string) *GitSentry {
 }
 
 func (gs *GitSentry) Initialize() error {
+	return gs.InitializeWithTemplate("")
+}
+
+func (gs *GitSentry) InitializeWithTemplate(template string) error {
 	// Create .gitsentry directory
 	gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
 	if err := os.MkdirAll(gitsentryDir, 0755); err != nil {
@@ -53,7 +57,7 @@ func (gs *GitSentry) Initialize() error {
 	}
 	
 	// Initialize configuration
-	cfg, err := config.Load(gitsentryDir)
+	cfg, err := config.LoadWithTemplate(gitsentryDir, template)
 	if err != nil {
 		return fmt.Errorf("failed to load config: %w", err)
 	}

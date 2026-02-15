@@ -91,10 +91,23 @@ func GetConfigByTemplate(template string) *Config {
 	}
 }
 
+func LoadWithTemplate(gitsentryDir, template string) (*Config, error) {
+	configPath := filepath.Join(gitsentryDir, "config.yaml")
+	
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		config := GetConfigByTemplate(template)
+		if err := config.Save(gitsentryDir); err != nil {
+			return nil, err
+		}
+		return config, nil
+	}
+	
+	return Load(gitsentryDir)
+}
+
 func Load(gitsentryDir string) (*Config, error) {
 	configPath := filepath.Join(gitsentryDir, "config.yaml")
 	
-	// If config doesn't exist, create default
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		config := DefaultConfig()
 		if err := config.Save(gitsentryDir); err != nil {
@@ -103,7 +116,6 @@ func Load(gitsentryDir string) (*Config, error) {
 		return config, nil
 	}
 	
-	// Load existing config
 	data, err := os.ReadFile(configPath)
 	if err != nil {
 		return nil, err
@@ -119,6 +131,7 @@ func Load(gitsentryDir string) (*Config, error) {
 	}
 	
 	return &config, nil
+}
 }
 
 func (c *Config) Save(gitsentryDir string) error {
