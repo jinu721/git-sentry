@@ -59,7 +59,7 @@ func (fm *FileMonitor) watch() {
 				fm.callback(event.Name)
 			}
 			
-		case err, ok := <-fm.watcher.Errors:
+		case _, ok := <-fm.watcher.Errors:
 			if !ok {
 				return
 			}

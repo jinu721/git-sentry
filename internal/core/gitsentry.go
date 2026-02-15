@@ -108,8 +108,10 @@ func (gs *GitSentry) StartDaemon() error {
 	fmt.Println("🚀 GitSentry daemon started successfully")
 	fmt.Printf("📁 Monitoring: %s\n", gs.repoPath)
 	
-func (gs *GitSentry) Start() error {
+	select {}
 }
+
+func (gs *GitSentry) Start() error {
 	if gs.isRunning {
 		return fmt.Errorf("GitSentry is already running")
 	}
@@ -218,7 +220,6 @@ func (gs *GitSentry) SaveConfig(config *config.Config) error {
 }
 
 func (gs *GitSentry) GetConfig() (*config.Config, error) {
-}
 	if gs.config == nil {
 		gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
 		cfg, err := config.Load(gitsentryDir)

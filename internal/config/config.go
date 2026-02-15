@@ -132,7 +132,6 @@ func Load(gitsentryDir string) (*Config, error) {
 	
 	return &config, nil
 }
-}
 
 func (c *Config) Save(gitsentryDir string) error {
 	configPath := filepath.Join(gitsentryDir, "config.yaml")
