@@ -13,7 +13,7 @@ func SanitizePath(path string) (string, error) {
 	
 	cleaned := filepath.Clean(path)
 	
-	if strings.Contains(cleaned, "..") {
+	if strings.Contains(path, "..") {
 		return "", fmt.Errorf("directory traversal not allowed")
 	}
 	
@@ -28,6 +28,8 @@ func isAllowedAbsolutePath(path string) bool {
 	allowedPrefixes := []string{
 		"/tmp/",
 		"/var/tmp/",
+		"C:\\Users\\",
+		"C:\\Windows\\Temp\\",
 	}
 	
 	for _, prefix := range allowedPrefixes {
