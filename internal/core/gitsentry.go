@@ -10,6 +10,7 @@ import (
 	"gitsentry/internal/daemon"
 	"gitsentry/internal/git"
 	"gitsentry/internal/monitor"
+	"gitsentry/internal/security"
 	"gitsentry/internal/state"
 )
 
@@ -45,15 +46,13 @@ func (gs *GitSentry) Initialize() error {
 }
 
 func (gs *GitSentry) InitializeWithTemplate(template string) error {
-	// Create .gitsentry directory
 	gitsentryDir := filepath.Join(gs.repoPath, ".gitsentry")
-	if err := os.MkdirAll(gitsentryDir, 0755); err != nil {
+	if err := security.SecureCreateDir(gitsentryDir); err != nil {
 		return fmt.Errorf("failed to create .gitsentry directory: %w", err)
 	}
 	
-	// Create logs directory
 	logsDir := filepath.Join(gitsentryDir, "logs")
-	if err := os.MkdirAll(logsDir, 0755); err != nil {
+	if err := security.SecureCreateDir(logsDir); err != nil {
 		return fmt.Errorf("failed to create logs directory: %w", err)
 	}
 	
