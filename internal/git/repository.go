@@ -1,12 +1,16 @@
 package git
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
+
+	"gitsentry/internal/security"
 )
 
 type Repository struct {
@@ -108,14 +112,22 @@ func (r *Repository) HasRemote() (bool, error) {
 	return strings.TrimSpace(string(output)) != "", nil
 }
 
-func (r *Repository) GetBranch() (string, error) {
-	cmd := exec.Command("git", "branch", "--show-current")
+func (r *Repository) execGitCommand(args ...string) ([]byte, error) {
+	sanitizedArgs, err := security.SanitizeGitArgs(args)
+	if err != nil {
+		return nil, fmt.Errorf("invalid git command: %w", err)
+	}
+	
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	
+	cmd := exec.CommandContext(ctx, "git", sanitizedArgs...)
 	cmd.Dir = r.path
 	
 	output, err := cmd.Output()
 	if err != nil {
-		return "", err
+		return nil, fmt.Errorf("git command failed: %w", err)
 	}
 	
-	return strings.TrimSpace(string(output)), nil
+	return output, nil
 }
