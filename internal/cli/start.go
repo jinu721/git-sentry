@@ -15,10 +15,18 @@ var (
 )
 
 var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "Start GitSentry monitoring",
+	Use:   "start [flags]",
+	Short: "Start GitSentry file monitoring",
 	Long: `Start GitSentry background monitoring of file changes.
-GitSentry will watch for changes and suggest commits based on your configured rules.`,
+Watches for file modifications and suggests commits based on configured rules.
+
+Modes:
+  • Interactive - Runs in foreground with live feedback (default)
+  • Daemon     - Runs in background as system service
+
+Examples:
+  gitsentry start                    Start interactive monitoring
+  gitsentry start --daemon           Start background daemon mode`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		sentry := core.NewGitSentry(".")
 		

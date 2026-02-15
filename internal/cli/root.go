@@ -8,15 +8,28 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "gitsentry",
-	Short: "GitSentry - Your local-first Git assistant",
-	Long: `GitSentry is a background Git assistant that monitors your project folder
-in real time and helps enforce clean Git habits without being intrusive.
+	Short: "GitSentry - Your intelligent Git workflow assistant",
+	Long: `GitSentry is an intelligent Git workflow assistant that monitors your repository
+in real-time and provides smart suggestions for commits, pushes, and best practices.
 
-It helps you know when to commit, write standard commit messages,
-and safely push code for backup - all while keeping you in control.`,
+Features:
+  • Real-time file monitoring with smart commit suggestions
+  • Configurable rules for different team workflows  
+  • Background daemon mode for continuous monitoring
+  • Interactive configuration management
+  • Comprehensive diagnostics and health checks
+  • Statistics export for productivity analysis
+
+Examples:
+  gitsentry init --template=team     Initialize with team configuration
+  gitsentry start --daemon           Start monitoring in background
+  gitsentry rules --interactive      Configure rules interactively
+  gitsentry stats --export=json      Export statistics to JSON
+  gitsentry doctor                   Run health diagnostics`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("GitSentry - Your Git mentor")
-		fmt.Println("Use 'gitsentry --help' to see available commands")
+		PrintHeader("GitSentry - Your Git Workflow Assistant")
+		PrintInfo("Use 'gitsentry --help' to see all available commands")
+		PrintInfo("Use 'gitsentry <command> --help' for detailed command help")
 	},
 }
 
