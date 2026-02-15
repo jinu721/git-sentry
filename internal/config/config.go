@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 
 	"gopkg.in/yaml.v3"
+	"gitsentry/internal/security"
 )
 
 type Config struct {
@@ -55,6 +56,10 @@ func Load(gitsentryDir string) (*Config, error) {
 	
 	var config Config
 	if err := yaml.Unmarshal(data, &config); err != nil {
+		return nil, err
+	}
+	
+	if err := security.ValidateConfigStruct(&config); err != nil {
 		return nil, err
 	}
 	
