@@ -5,8 +5,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "gitsentry",
-	Short: "GitSentry - Your intelligent Git workflow assistant",
+	Use:     "gitsentry",
+	Version: "1.0.0",
+	Short:   "GitSentry - Your intelligent Git workflow assistant",
 	Long: `GitSentry is an intelligent Git workflow assistant that monitors your repository
 in real-time and provides smart suggestions for commits, pushes, and best practices.
 
