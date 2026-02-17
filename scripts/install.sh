@@ -60,11 +60,11 @@ get_latest_version() {
     version=$(curl -s "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     
     if [ -z "$version" ]; then
-        print_error "Failed to get latest version"
-        exit 1
+        print_warning "No releases found. Using fallback version v1.0.0"
+        echo "v1.0.0"
+    else
+        echo "$version"
     fi
-    
-    echo "$version"
 }
 
 # Download and install binary
@@ -87,9 +87,21 @@ install_binary() {
     
     # Download binary
     if command -v curl >/dev/null 2>&1; then
-        curl -L "$download_url" -o "$INSTALL_DIR/$BINARY_NAME$suffix"
+        if ! curl -L "$download_url" -o "$INSTALL_DIR/$BINARY_NAME$suffix"; then
+            print_error "Failed to download binary from $download_url"
+            print_error "This might be because the release doesn't exist yet."
+            print_error "Please check: https://github.com/${REPO}/releases"
+            print_error "Or try building from source: https://github.com/${REPO}#build-from-source"
+            exit 1
+        fi
     elif command -v wget >/dev/null 2>&1; then
-        wget "$download_url" -O "$INSTALL_DIR/$BINARY_NAME$suffix"
+        if ! wget "$download_url" -O "$INSTALL_DIR/$BINARY_NAME$suffix"; then
+            print_error "Failed to download binary from $download_url"
+            print_error "This might be because the release doesn't exist yet."
+            print_error "Please check: https://github.com/${REPO}/releases"
+            print_error "Or try building from source: https://github.com/${REPO}#build-from-source"
+            exit 1
+        fi
     else
         print_error "Neither curl nor wget found. Please install one of them."
         exit 1

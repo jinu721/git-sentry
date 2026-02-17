@@ -48,8 +48,8 @@ function Get-LatestVersion {
         return $response.tag_name
     }
     catch {
-        Write-Error "Failed to get latest version: $_"
-        exit 1
+        Write-Warning "No releases found. Using fallback version v1.0.0"
+        return "v1.0.0"
     }
 }
 
@@ -76,7 +76,10 @@ function Install-Binary {
         Write-Success "GitSentry installed to $targetPath"
     }
     catch {
-        Write-Error "Failed to download binary: $_"
+        Write-Error "Failed to download binary from $downloadUrl"
+        Write-Error "This might be because the release doesn't exist yet."
+        Write-Error "Please check: https://github.com/$REPO/releases"
+        Write-Error "Or try building from source: https://github.com/$REPO#build-from-source"
         exit 1
     }
 }
