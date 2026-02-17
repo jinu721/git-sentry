@@ -50,37 +50,41 @@ GitSentry is a lightweight, local-first Git assistant that helps developers main
 
 ## **Quick Start**
 
-### **1. Install GitSentry Globally**
+### **🚀 One-Command Installation**
 
-#### **One-Line Install (Linux/macOS):**
+**Linux/macOS/WSL:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/jinu721/git-sentry/main/quick-install.sh | bash
+curl -sSL https://raw.githubusercontent.com/jinu721/git-sentry/main/scripts/install.sh | bash
 ```
 
-#### **One-Line Install (Windows PowerShell as Administrator):**
+**Windows (PowerShell):**
 ```powershell
-iwr -useb https://raw.githubusercontent.com/jinu721/git-sentry/main/quick-install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/jinu721/git-sentry/main/scripts/install.ps1 | iex
 ```
 
-#### **Manual Install - Linux/macOS:**
-```bash
-git clone https://github.com/jinu721/git-sentry.git
-cd git-sentry
-chmod +x install.sh
-./install.sh
-```
+### **📦 Alternative Installation Methods**
 
-#### **Manual Install - Windows (PowerShell as Administrator):**
-```powershell
-git clone https://github.com/jinu721/git-sentry.git
-cd git-sentry
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-.\install.ps1
-```
-
-#### **Using Go (All Platforms):**
+#### **Using Go:**
 ```bash
 go install github.com/jinu721/git-sentry/cmd/gitsentry@latest
+```
+
+#### **Manual Download:**
+Download pre-built binaries from [GitHub Releases](https://github.com/jinu721/git-sentry/releases/latest):
+- **Linux AMD64**: `gitsentry-linux-amd64`
+- **Linux ARM64**: `gitsentry-linux-arm64`
+- **macOS Intel**: `gitsentry-darwin-amd64`
+- **macOS Apple Silicon**: `gitsentry-darwin-arm64`
+- **Windows AMD64**: `gitsentry-windows-amd64.exe`
+- **Windows ARM64**: `gitsentry-windows-arm64.exe`
+- **FreeBSD**: `gitsentry-freebsd-amd64`
+
+#### **Build from Source:**
+```bash
+git clone https://github.com/jinu721/git-sentry.git
+cd git-sentry
+go build -o gitsentry cmd/gitsentry/main.go
+# Move to a directory in your PATH
 ```
 
 ### **2. Use in Any Project**
@@ -327,17 +331,37 @@ git-sentry/
 
 ## **Troubleshooting**
 
+### **Installation Features**
+- **No admin rights required** - Installs to user directory (`~/.local/bin`)
+- **Cross-platform** - Works on Linux, macOS, Windows, FreeBSD
+- **Auto-detection** - Automatically detects OS and architecture
+- **PATH management** - Automatically adds to PATH
+- **Pre-built binaries** - No compilation needed
+- **Secure downloads** - Downloads from official GitHub releases
+
+### **Uninstallation**
+
+**Linux/macOS/WSL:**
+```bash
+curl -sSL https://raw.githubusercontent.com/jinu721/git-sentry/main/scripts/uninstall.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+iwr -useb https://raw.githubusercontent.com/jinu721/git-sentry/main/scripts/uninstall.ps1 | iex
+```
+
 ### **Installation Issues**
-- **Command not found**: Ensure Go's bin directory is in your PATH
-- **Permission denied**: Use `sudo` on Unix or run PowerShell as Administrator on Windows
-- **Build fails**: Check Go version (requires 1.21+)
+- **Command not found**: Restart terminal or add `~/.local/bin` to PATH manually
+- **Permission denied**: Installation uses user directory, no admin rights needed
+- **Download fails**: Check internet connection or try manual download
 - **Git not available**: Install Git first from https://git-scm.com/
-- **Network issues**: Try manual installation if quick install fails
+- **Network issues**: Use manual download from GitHub releases
 
 ### **First-Time Setup**
 ```bash
 # After installation, verify it works
-gitsentry --help
+gitsentry --version
 
 # Test in any Git repository
 cd /path/to/your/git/project
@@ -353,8 +377,9 @@ gitsentry init --template=team
 - **Git not detected**: Ensure you're in a Git repository
 
 ### **Platform-Specific**
-- **Windows**: Add `%GOPATH%\bin` to your PATH environment variable
-- **Linux/macOS**: Add `export PATH=$PATH:$(go env GOPATH)/bin` to your shell profile
+- **Windows**: Binary installs to `%USERPROFILE%\.local\bin`
+- **Linux/macOS**: Binary installs to `~/.local/bin`
+- **PATH issues**: Restart terminal after installation
 
 ### **Diagnostics**
 ```bash
@@ -366,6 +391,9 @@ gitsentry status
 
 # View configuration
 gitsentry rules
+
+# Check version
+gitsentry --version
 ```
 
 ---
@@ -377,13 +405,12 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ---
 
 ## **Acknowledgments**
-
 - Built with [Cobra](https://github.com/spf13/cobra) for CLI interface
 - File monitoring powered by [fsnotify](https://github.com/fsnotify/fsnotify)
+
 - Inspired by the need for better Git habits in development teams
 
 ---
 
 **GitSentry** - Because good Git habits shouldn't be hard to maintain.
-
 *Made with care for developers who want to write better Git history*
