@@ -52,7 +52,17 @@ GitSentry is a lightweight, local-first Git assistant that helps developers main
 
 ### **1. Install GitSentry Globally**
 
-#### **Linux/macOS:**
+#### **One-Line Install (Linux/macOS):**
+```bash
+curl -sSL https://raw.githubusercontent.com/jinu721/git-sentry/main/quick-install.sh | bash
+```
+
+#### **One-Line Install (Windows PowerShell as Administrator):**
+```powershell
+iwr -useb https://raw.githubusercontent.com/jinu721/git-sentry/main/quick-install.ps1 | iex
+```
+
+#### **Manual Install - Linux/macOS:**
 ```bash
 git clone https://github.com/jinu721/git-sentry.git
 cd git-sentry
@@ -60,7 +70,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-#### **Windows (PowerShell as Administrator):**
+#### **Manual Install - Windows (PowerShell as Administrator):**
 ```powershell
 git clone https://github.com/jinu721/git-sentry.git
 cd git-sentry
@@ -70,9 +80,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 #### **Using Go (All Platforms):**
 ```bash
-git clone https://github.com/jinu721/git-sentry.git
-cd git-sentry
-go install ./cmd/gitsentry
+go install github.com/jinu721/git-sentry/cmd/gitsentry@latest
 ```
 
 ### **2. Use in Any Project**
@@ -323,6 +331,21 @@ git-sentry/
 - **Command not found**: Ensure Go's bin directory is in your PATH
 - **Permission denied**: Use `sudo` on Unix or run PowerShell as Administrator on Windows
 - **Build fails**: Check Go version (requires 1.21+)
+- **Git not available**: Install Git first from https://git-scm.com/
+- **Network issues**: Try manual installation if quick install fails
+
+### **First-Time Setup**
+```bash
+# After installation, verify it works
+gitsentry --help
+
+# Test in any Git repository
+cd /path/to/your/git/project
+gitsentry doctor
+
+# Initialize with team settings
+gitsentry init --template=team
+```
 
 ### **Runtime Issues**
 - **No suggestions**: Run `gitsentry doctor` to diagnose issues
