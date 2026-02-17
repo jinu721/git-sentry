@@ -52,6 +52,8 @@ GitSentry is a lightweight, local-first Git assistant that helps developers main
 
 ### **🚀 One-Command Installation**
 
+> **Note**: The automated installation scripts are currently being set up. If you encounter issues, please use the "Build from Source" method below or check back shortly.
+
 **Linux/macOS/WSL:**
 ```bash
 curl -sSL https://raw.githubusercontent.com/jinu721/git-sentry/main/scripts/install.sh | bash
